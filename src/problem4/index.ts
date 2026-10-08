@@ -1,24 +1,25 @@
+/** Iterative: O(n) time and O(1) extra space. */
 function sum_to_n_a(n: number): number {
-  // Iterative approach: Using a loop
-  let sum = 0;
-  for (let i = 1; i <= n; i++) {
-      sum += i;
-  }
-  return sum;
+  let total = 0;
+  for (let value = 1; value <= n; value += 1) total += value;
+  return total;
 }
 
+/** Arithmetic-series formula: O(1) time and O(1) extra space. */
 function sum_to_n_b(n: number): number {
-  // Mathematical approach: Using the formula n * (n + 1) / 2
-  return (n * (n + 1)) / 2;
+  return n <= 0 ? 0 : (n * (n + 1)) / 2;
 }
 
+/** Divide-and-conquer recursion: O(n) time and O(log n) call-stack space. */
 function sum_to_n_c(n: number): number {
-  // Recursive approach
   if (n <= 0) return 0;
-  return n + sum_to_n_c(n - 1);
+  function sumRange(first: number, last: number): number {
+    if (first > last) return 0;
+    if (first === last) return first;
+    const middle = Math.floor((first + last) / 2);
+    return sumRange(first, middle) + sumRange(middle + 1, last);
+  }
+  return sumRange(1, n);
 }
 
-// Example usage:
-console.log(sum_to_n_a(10)); // Output: 55
-console.log(sum_to_n_b(10)); // Output: 55
-console.log(sum_to_n_c(10)); // Output: 55
+export { sum_to_n_a, sum_to_n_b, sum_to_n_c };
